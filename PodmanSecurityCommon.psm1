@@ -2,6 +2,9 @@
 # Shared module for Podman Security Setup scripts
 # Contains common functions for executing bash scripts in WSL
 
+# Default subdirectory for WSL bash scripts
+$Script:WslScriptsFolder = "wsl-scripts"
+
 function Invoke-ExternalBashScript {
     <#
     .SYNOPSIS
@@ -87,10 +90,14 @@ function Invoke-ExternalBashScript {
         return
     }
 
-    # Check if script exists
-    $scriptPath = Join-Path $ScriptRoot $ScriptName
+    # Check if script exists - first try in wsl-scripts subfolder, then in ScriptRoot directly
+    $scriptPath = Join-Path $ScriptRoot (Join-Path $Script:WslScriptsFolder $ScriptName)
     if (-not (Test-Path $scriptPath)) {
-        throw "Required bash script not found: $scriptPath"
+        # Fallback to ScriptRoot directly for backwards compatibility
+        $scriptPath = Join-Path $ScriptRoot $ScriptName
+        if (-not (Test-Path $scriptPath)) {
+            throw "Required bash script not found: $ScriptName (searched in $Script:WslScriptsFolder and root)"
+        }
     }
 
     Write-LogMessage "Using external bash script: $scriptPath" "DEBUG"

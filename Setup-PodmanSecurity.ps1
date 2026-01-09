@@ -96,9 +96,9 @@ $Script:Config = @{
         BackupWsl = "backup-wsl-config.sh"
         RestoreWsl = "restore-wsl-config.sh"
     }
-    # Configuration template files
+    # Configuration template files (in config subfolder)
     Templates = @{
-        WslConfig = "wslconfig.template"
+        WslConfig = "config\wslconfig.template"
     }
 }
 
@@ -298,7 +298,7 @@ function Invoke-InlineBackup {
     $wslBackupPath = wsl -d $Script:Config.WslDistro -- wslpath -u ($wslBackupDir -replace '\\', '/')
 
     # Use Invoke-WslScript to execute the backup script with the backup directory as an argument
-    $backupScriptPath = Join-Path $Script:Config.ScriptRoot $Script:Config.BashScripts.BackupWsl
+    $backupScriptPath = Join-Path $Script:Config.ScriptRoot (Join-Path "wsl-scripts" $Script:Config.BashScripts.BackupWsl)
 
     if (Test-Path $backupScriptPath) {
         $tempScript = [System.IO.Path]::GetTempFileName()
