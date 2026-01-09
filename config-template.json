@@ -1,0 +1,80 @@
+{
+    "_comment": "Podman Security Setup - Configuration Template",
+    "_instructions": "Copy this file to 'config.json' and modify values as needed",
+    "_version": "1.0.0",
+    
+    "wsl": {
+        "_description": "WSL Distribution Settings",
+        "distroName": "podman-machine-default",
+        "memory": "4GB",
+        "processors": 2,
+        "swap": "2GB"
+    },
+    
+    "network": {
+        "_description": "Network and Connectivity Settings",
+        "internalMirrorUrl": "https://mirror.internal.company.com",
+        "internalRegistryUrl": "registry.internal.company.com",
+        "internalDnsServer": "10.0.0.10",
+        "internalProxyUrl": "http://proxy.internal.company.com:8080",
+        "internalDomain": "internal.company.com",
+        "allowedNetworkRanges": [
+            "10.0.0.0/8",
+            "172.16.0.0/12",
+            "192.168.0.0/16"
+        ]
+    },
+    
+    "security": {
+        "_description": "Security Configuration",
+        "ssh": {
+            "port": 22,
+            "maxAuthTries": 3,
+            "maxSessions": 2,
+            "loginGraceTime": 30,
+            "allowedUsers": ["podmanuser"]
+        },
+        "containers": {
+            "pidsLimit": 2048,
+            "logSizeMax": "100MB",
+            "shmSize": "64m",
+            "defaultCapabilities": [
+                "CHOWN",
+                "DAC_OVERRIDE",
+                "FOWNER",
+                "FSETID",
+                "KILL",
+                "NET_BIND_SERVICE",
+                "SETFCAP",
+                "SETGID",
+                "SETPCAP",
+                "SETUID"
+            ]
+        },
+        "blockedRegistries": [
+            "docker.io",
+            "quay.io",
+            "gcr.io",
+            "ghcr.io",
+            "registry.k8s.io",
+            "mcr.microsoft.com"
+        ]
+    },
+    
+    "patching": {
+        "_description": "Patching Schedule Configuration",
+        "schedule": {
+            "enabled": false,
+            "dayOfWeek": "Saturday",
+            "weekOfMonth": "2nd",
+            "time": "02:00"
+        },
+        "logRetentionDays": 90
+    },
+    
+    "backup": {
+        "_description": "Backup Configuration",
+        "path": "C:\\PodmanSecurityBackup",
+        "retentionCount": 5
+    }
+}

@@ -1,0 +1,26 @@
+# Podman Security Configuration
+# Generated: {{TIMESTAMP}}
+# DO NOT MODIFY - Managed by Podman Security Setup
+
+[wsl2]
+# Resource limits
+memory=4GB
+processors=2
+swap=2GB
+
+# Network configuration - localhost only
+localhostForwarding=true
+
+# Disable GUI applications (security)
+guiApplications=false
+
+# Nested virtualization (required for some container features)
+nestedVirtualization=false
+
+[experimental]
+# Use mirrored networking for better isolation (Windows 11 22H2+)
+networkingMode=mirrored
+hostAddressLoopback=true
+
+# Disable auto memory reclaim for stability
+autoMemoryReclaim=disabled
